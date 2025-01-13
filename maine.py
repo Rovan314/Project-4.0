@@ -19,7 +19,9 @@ sleep()
 
 
 def taimer():
-    taim = int(input('What time in seconds only please?'))
+    taim = int(input('Enter your desired time in minutes:seconds format:'))
+    min, sec = map(int, taim.split(':'))
+    taim = min*60 + sec
     for x in range(taim, 0, -1):
      seconds = x % 60
      minutes = int(x/60) % 60
