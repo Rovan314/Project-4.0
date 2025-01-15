@@ -1,18 +1,23 @@
 import time
+import csv
 
-def main():
-    print('Press 1 for a timer')
-    print('Press 2 for a motivational exercise')
-    choice = input('')
-    if choice == '1':
-        taimer()
-    elif choice == '2':
-        sleep()
-    elif choice == '3':
-        print('Goodbye')
-        exit()
-    else:print('I\'s only 1 or 2 \n now')
-    main()
+def add_subject():
+    subject = input('Enter subject name: ')
+    with open('work.csv', 'a', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow([subject])
+    if not subject:
+        print('Subject name can\'t be empty')
+        return None
+    print(f'{subject} added successfully')
+    return subject
+
+def add_work():
+    subject = input('Enter subject name: ')
+    if not subject:
+        print('Subject name can\'t be empty')
+        return
+
 
 def sleep():
         print('Focus on nothing but the task at hand for two minutes, because it helps you concentrate and will keep you busy later on')
@@ -48,5 +53,19 @@ def taimer():
      print(f'{minutes:02}:{seconds:02}')
      time.sleep(1)
     print('Done')
+
+def main():
+    print('Press 1 for a timer')
+    print('Press 2 for a motivational exercise')
+    choice = input('')
+    if choice == '1':
+        taimer()
+    elif choice == '2':
+        sleep()
+    elif choice == '3':
+        print('Goodbye')
+        exit()
+    else:print('I\'s only 1 or 2 \n now')
+    main()
 
 main()
