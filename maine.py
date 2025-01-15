@@ -17,6 +17,10 @@ def add_work():
     if not subject:
         print('Subject name can\'t be empty')
         return
+    with open('work.csv', newline='') as file:
+     x = csv.reader(file)
+     for x in 'work.csv':
+        print(f'{x}')
 
 
 def sleep():
@@ -68,4 +72,4 @@ def main():
     else:print('I\'s only 1 or 2 \n now')
     main()
 
-main()
+add_work()
