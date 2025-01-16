@@ -3,24 +3,17 @@ import csv
 
 def add_subject():
     subject = input('Enter subject name: ')
-    with open('work.csv', 'a', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerow([subject])
-    if not subject:
-        print('Subject name can\'t be empty')
-        return None
-    print(f'{subject} added successfully')
-    return subject
-
-def add_work():
-    subject = input('Enter subject name: ')
     if not subject:
         print('Subject name can\'t be empty')
         return
-    with open('work.csv', newline='') as file:
-     x = csv.reader(file)
-     for x in 'work.csv':
-        print(f'{x}')
+    with open(subject.txt, "r") as file:
+        subjects = [line.strip() for line in file.readlines()]
+    if subject in subjects:
+        print(f'{subject} as a subject already exists')
+        return
+    with open(subject.txt, "a") as file:
+        file.write(subject + "\n")
+    print(f'{subject} has been added')
 
 
 def sleep():
@@ -72,4 +65,4 @@ def main():
     else:print('I\'s only 1 or 2 \n now')
     main()
 
-add_work()
+main()
