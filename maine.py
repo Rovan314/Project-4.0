@@ -15,6 +15,15 @@ def add_subject():
         file.write(subject + "\n")
     print(f'{subject} has been added')
 
+def add_task():
+    subject = input('Enter subject name: ')
+    task_name = input('Enter task name: ')
+    status = 'Pending'
+    with open('work.csv', 'a', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow([subject, task_name, status])
+    print(f'{task_name} has been assigned to {subject}')
+
 
 def sleep():
         print('Focus on nothing but the task at hand for two minutes, because it helps you concentrate and will keep you busy later on')
