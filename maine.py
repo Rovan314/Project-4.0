@@ -1,25 +1,45 @@
 import time
 import csv
+subject_file = 'subject.txt'
 
 def add_subject():
     subject = input('Enter subject name: ')
     if not subject:
         print('Subject name can\'t be empty')
         return
-    with open(subject.txt, "r") as file:
+    
+    with open(subject_file, "r") as file:
         subjects = [line.strip() for line in file.readlines()]
+    
     if subject in subjects:
         print(f'{subject} as a subject already exists')
         return
-    with open(subject.txt, "a") as file:
+    
+    with open(subject_file, "a") as file:
         file.write(subject + "\n")
     print(f'{subject} has been added')
 
 def add_task():
-    subject = input('Enter subject name: ')
+    with open ('subject.txt', 'r') as file:
+        subjects = [line.strip() for line in file.readlines()]
+    
+    if not subjects:
+        print('No subject like this exists')
+        return
+    print('Subjects available')   
+    
     task_name = input('Enter task name: ')
-    status = 'Pending'
-    with open('work.csv', 'a', newline='') as file:
+    if not task_name:
+        print('Task name can\'t be empty')
+        return
+    
+    priority = input('Enter the priority level (Low, Mid, High): ')
+    if priority.upper() not in ['LOW', 'MID', 'HIGH']:
+        print('Not a valid priority level, choose either Low, Mid, or High.')
+        return
+    status = "Pending"
+    
+    with open('task.csv', 'a', newline='') as file:
         writer = csv.writer(file)
         writer.writerow([subject, task_name, status])
     print(f'{task_name} has been assigned to {subject}')
@@ -63,12 +83,19 @@ def taimer():
 def main():
     print('Press 1 for a timer')
     print('Press 2 for a motivational exercise')
+    print('Press 3 to add your subject')
+    print('Press 4 to add a subject\'s task')
+    print('Press 5 to exit')
     choice = input('')
     if choice == '1':
         taimer()
     elif choice == '2':
         sleep()
     elif choice == '3':
+        add_subject()
+    elif choice == '4':
+        add_task()
+    elif choice == '5':
         print('Goodbye')
         exit()
     else:print('I\'s only 1 or 2 \n now')
