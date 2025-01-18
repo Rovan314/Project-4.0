@@ -6,7 +6,7 @@ def add_subject():
     subject = input('Enter subject name: ')
     if not subject:
         print('Subject name can\'t be empty')
-        return
+        add_subject()
     
     with open(subject_file, "r") as file:
         subjects = [line.strip() for line in file.readlines()]
@@ -20,29 +20,44 @@ def add_subject():
     print(f'{subject} has been added')
 
 def add_task():
-    with open ('subject.txt', 'r') as file:
+    with open (subject_file, 'r') as file:
         subjects = [line.strip() for line in file.readlines()]
     
+    print('Subjects available')
+    for subject in subjects:
+        print(subject)
+    
+    def sub_input():
+     subject = input('\nEnter a subject\'s name EXACTLY as shown: ')
+     if subject not in subjects:
+        print('Invalid subject name. Try again.')
+        sub_input   
     if not subjects:
-        print('No subject like this exists')
-        return
-    print('Subjects available')   
+        print('Empty, enter a subject')
+        sub_input()
     
-    task_name = input('Enter task name: ')
-    if not task_name:
+    sub_input()
+    
+    def tsk_input():
+     task_name = input('Enter task name: ')
+     if not task_name:
         print('Task name can\'t be empty')
-        return
+        tsk_input()
     
-    priority = input('Enter the priority level (Low, Mid, High): ')
-    if priority.upper() not in ['LOW', 'MID', 'HIGH']:
+    tsk_input()
+    
+    def pri_input():
+     priority = input('Enter the priority level (Low, Mid, High): ')
+     if priority.upper() not in ['LOW', 'MID', 'HIGH']:
         print('Not a valid priority level, choose either Low, Mid, or High.')
         return
-    status = "Pending"
+    pri_input()
+status = "Pending"
     
-    with open('task.csv', 'a', newline='') as file:
+with open('task.csv', 'a', newline='') as file:
         writer = csv.writer(file)
         writer.writerow([subject, task_name, status])
-    print(f'{task_name} has been assigned to {subject}')
+        print(f'{task_name} has been assigned to {subject}')
 
 
 def sleep():
