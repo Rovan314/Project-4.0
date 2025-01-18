@@ -28,10 +28,12 @@ def add_task():
         print(subject)
     
     def sub_input():
+     global subject
      subject = input('\nEnter a subject\'s name EXACTLY as shown: ')
      if subject not in subjects:
         print('Invalid subject name. Try again.')
-        sub_input   
+        sub_input()   
+    
     if not subjects:
         print('Empty, enter a subject')
         sub_input()
@@ -39,18 +41,19 @@ def add_task():
     sub_input()
     
     def tsk_input():
+     global task_name
      task_name = input('Enter task name: ')
      if not task_name:
         print('Task name can\'t be empty')
-        tsk_input()
     
     tsk_input()
-    
+
     def pri_input():
      priority = input('Enter the priority level (Low, Mid, High): ')
      if priority.upper() not in ['LOW', 'MID', 'HIGH']:
         print('Not a valid priority level, choose either Low, Mid, or High.')
-        return
+        pri_input()
+ 
     pri_input()
 status = "Pending"
     
