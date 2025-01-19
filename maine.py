@@ -14,8 +14,12 @@ def add_subject():
         print('Subject name can\'t be empty')
         add_subject()
     
-    with open(subject_file, 'r') as file:
+    try:
+     with open(subject_file, 'r') as file:
         subjects = [line.strip() for line in file.readlines()]
+    except FileNotFoundError:
+     print('No subjects found. Add a subject first.')
+     return
     
     if subject in subjects:
         print(f'{subject} as a subject already exists')
@@ -33,8 +37,12 @@ def add_task():
     except FileExistsError:
         pass
 
-    with open (subject_file, 'r') as file:
+    try:
+     with open(subject_file, 'r') as file:
         subjects = [line.strip() for line in file.readlines()]
+    except FileNotFoundError:
+     print('No subjects found. Add a subject first.')
+     return
     
     if subjects:
      print('Subjects available')
@@ -68,6 +76,18 @@ def add_task():
          writer = csv.writer(file)
          writer.writerow([subject, task_name, status])
          print(f'{task_name} has been assigned to {subject}')
+    
+    while True:
+     choice = input('Would you like to complete the task now? (yes or no): ')
+     if choice.lower() in ['yes', 'y']:
+        timer()
+        break
+     elif choice in ['no', 'n']:
+        print('Understandable')
+        main()
+        break
+     else:print('Invalid input')
+     continue
 
 def mark_tasks():
     task_name = input('Enter name of the task that was completed: ')
@@ -80,8 +100,8 @@ def mark_tasks():
         with open('task.csv', 'w', newline='') as file:
             writer = csv.writer(file)
             for row in tasks:
-                if row[1].lower() == task_name.lower() and row[4] == 'Pending':
-                    row[4] = 'Completed'
+                if row[1].lower() == task_name.lower() and row[2] == 'Pending':
+                    row[2] = 'Completed'
                     updated = True
                 writer.writerow(row)
 
@@ -95,57 +115,85 @@ def mark_tasks():
 def sleep():
         print('Focus on nothing but the task at hand for two minutes, because it helps you concentrate and will keep you busy later on')
         time.sleep(5)
+        
         mins = 2
         secs = 0
         taimer = mins * 60 + secs
+        
         for x in range(taimer, 0, -1):
             minutes = x // 60
             seconds = x % 60
             print(f'{minutes:02}:{seconds:02}')
             time.sleep(1)
+        
         print("time's up")
-        choice = input('Do you feel like you can do more? (yes or no): ')
-        if choice.lower() in ['yes', 'y']:
+        
+        while True:
+         choice = input('Do you feel like you can do more? (yes or no): ')
+         if choice.lower() in ['yes', 'y']:
             print('Excellent!')
-            taimer()
-        elif choice in ['no', 'n']:
-         print('Good luck!')
-         exit()
-        else: 
-         print('It\'s yes or no...')
-        return 
-
+            timer()
+            break
+         elif choice in ['no', 'n']:
+          print('Good luck!')
+          exit()
+         else: 
+          print('It\'s yes or no...')
+         continue
 
 def timer():
-    time = int(input('Enter your desired time in minutes:seconds format:'))
-    min, sec = map(int, time.split(':'))
-    time = min*60 + sec
-    for x in range(time, 0, -1):
+    taime = (input('Enter your desired time in minutes:seconds format:'))
+    min, sec = map(int, taime.split(':'))
+    taime = min*60 + sec
+    
+    for x in range(taime, 0, -1):
      seconds = x % 60
      minutes = int(x/60) % 60
      print(f'{minutes:02}:{seconds:02}')
      time.sleep(1)
-    print('Done')
+     
+     print('Done')
+    
+    while True:
+     choice = input('\nDo you need more time? (yes or no): ')
+     if choice.lower() in ['yes', 'y']:
+        print('Very well')
+        timer()
+        break
+     elif choice.lower() in ['no', 'n']:
+        while True:
+         joyce = input('Is your task completed? (yes or no): ')
+         if joyce.lower() in ['yes', 'y']:
+            print('Good job')
+            mark_tasks()
+            break
+         elif joyce.lower() in ['no', 'n']:
+            print('Better luck next time')
+            exit()
+         else:print('Invalid input') 
+         continue
 
 def main():
-    print('Press 1 for a timer')
-    print('Press 2 for a motivational exercise')
-    print('Press 3 to add your subject')
-    print('Press 4 to add a subject\'s task')
-    print('Press 5 to exit')
-    choice = input('')
-    if choice == '1':
+    print('1. For a Timer')
+    print('2. To help get focused')
+    print('3. To add a subject')
+    print("4. To add a subject's task")
+    print('5. To mark a task as complete')
+    print('6. To exit')
+    choice = input('').lower()
+    if choice in ['1', 'timer',]:
         timer()
-    elif choice == '2':
+    elif choice in ['2', 'help focus', 'help get focused', 'focus', 'help']:
         sleep()
-    elif choice == '3':
+    elif choice in ['3', 'add a subject', 'add subject', 'add sub', 'subject', 'sub']:
         add_subject()
-    elif choice == '4':
+    elif choice in ['4', 'add a task', 'add task', 'task']:
         add_task()
-    elif choice == '5':
-        print('Goodbye')
+    elif choice in ['5', 'mark a task', 'mark task']:
+        mark_tasks()
+    elif choice in ['6', 'exit']:
         exit()
     else:print('Wrong input, enter the correct number')
     main()
-
-main()
+if __name__ == '__main__':
+ main()
